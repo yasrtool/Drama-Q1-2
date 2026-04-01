@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Faustus - Quiz 2 | Al-Mustaqbal University</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#e8f5e9 0%,#c8e6c9 50%,#a5d6a7 100%);min-height:100vh;color:#1b5e20;}
+  .header{background:linear-gradient(90deg,#1b5e20,#2e7d32,#388e3c);color:#fff;padding:18px 24px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.3);}
+  .header h1{font-family:'Cinzel',serif;font-size:1.5em;letter-spacing:2px;}
+  .header p{font-size:0.85em;opacity:0.9;margin-top:4px;}
+  .univ-badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 14px;display:inline-block;margin-top:8px;font-size:0.8em;}
+  .container{max-width:820px;margin:0 auto;padding:24px 16px;}
+  .card{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 6px 25px rgba(27,94,32,0.12);border-left:5px solid #66bb6a;}
+  #loginSection h2{font-family:'Cinzel',serif;color:#2e7d32;font-size:1.4em;margin-bottom:6px;text-align:center;}
+  #loginSection p{text-align:center;color:#666;margin-bottom:20px;font-size:0.9em;}
+  .form-group{margin-bottom:16px;}
+  .form-group label{display:block;font-weight:600;color:#1b5e20;margin-bottom:6px;font-size:0.95em;}
+  .form-group input{width:100%;padding:12px 16px;border:2px solid #a5d6a7;border-radius:10px;font-size:1em;font-family:'Cairo',sans-serif;transition:border-color .3s;}
+  .form-group input:focus{outline:none;border-color:#2e7d32;}
+  .telegram-box{background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:2px solid #4caf50;border-radius:12px;padding:18px;margin:18px 0;text-align:center;}
+  .telegram-box h3{color:#2e7d32;font-size:1em;margin-bottom:8px;}
+  .telegram-box a{display:inline-block;background:linear-gradient(135deg,#0088cc,#006ba6);color:#fff;padding:10px 24px;border-radius:25px;text-decoration:none;font-weight:700;font-size:0.95em;margin:10px 0;transition:transform .2s;}
+  .telegram-box a:hover{transform:scale(1.05);}
+  .telegram-box .channel-desc{font-size:0.82em;color:#555;margin-top:8px;}
+  .checkbox-group{display:flex;align-items:center;gap:10px;margin-top:12px;}
+  .checkbox-group input[type=checkbox]{width:20px;height:20px;accent-color:#2e7d32;cursor:pointer;}
+  .checkbox-group label{font-size:0.9em;color:#333;cursor:pointer;}
+  .btn{background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;border:none;padding:14px 32px;border-radius:30px;font-size:1em;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;transition:all .3s;box-shadow:0 4px 15px rgba(27,94,32,0.3);}
+  .btn:hover{transform:translateY(-2px);}
+  #quizSection{display:none;}
+  .quiz-header{background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;border-radius:14px;padding:18px 22px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+  .quiz-header .student-name{font-size:1em;font-weight:600;}
+  .timer{background:rgba(255,255,255,0.2);border-radius:20px;padding:6px 16px;font-size:1em;font-weight:700;}
+  .progress-bar{height:8px;background:#c8e6c9;border-radius:4px;margin-bottom:22px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#388e3c,#81c784);border-radius:4px;transition:width .4s;}
+  .q-counter{text-align:right;font-size:0.85em;color:#555;margin-bottom:8px;}
+  .question-card{background:#fff;border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:0 4px 18px rgba(27,94,32,0.1);border-top:4px solid #66bb6a;}
+  .q-num{background:#66bb6a;color:#fff;display:inline-block;padding:3px 12px;border-radius:15px;font-size:0.82em;font-weight:700;margin-bottom:10px;}
+  .q-text{font-size:1em;font-weight:600;color:#1b5e20;line-height:1.6;margin-bottom:16px;}
+  .options{display:grid;gap:10px;}
+  .opt-btn{background:#f9fbf9;border:2px solid #c8e6c9;border-radius:10px;padding:12px 16px;text-align:right;cursor:pointer;transition:all .25s;font-family:'Cairo',sans-serif;font-size:0.95em;display:flex;align-items:center;gap:12px;}
+  .opt-btn .opt-letter{background:#c8e6c9;color:#1b5e20;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85em;flex-shrink:0;}
+  .opt-btn:hover:not(.disabled){background:#e8f5e9;border-color:#4caf50;transform:translateX(-3px);}
+  .opt-btn.selected{background:#e8f5e9;border-color:#2e7d32;}
+  .nav-btns{display:flex;justify-content:space-between;margin-top:20px;gap:12px;}
+  .btn-nav{background:linear-gradient(135deg,#388e3c,#2e7d32);color:#fff;border:none;padding:11px 28px;border-radius:25px;font-size:0.95em;font-weight:600;cursor:pointer;font-family:'Cairo',sans-serif;transition:all .2s;}
+  .btn-nav:hover{transform:translateY(-2px);}
+  .btn-nav:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+  .btn-submit-final{background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;border:none;padding:13px 36px;border-radius:30px;font-size:1em;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;width:100%;margin-top:16px;box-shadow:0 4px 15px rgba(27,94,32,0.3);}
+  #resultsSection{display:none;}
+  .result-hero{background:linear-gradient(135deg,#1b5e20,#2e7d32,#388e3c);color:#fff;border-radius:18px;padding:32px;text-align:center;margin-bottom:22px;}
+  .score-circle{width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,0.15);border:4px solid rgba(255,255,255,0.5);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 16px;}
+  .score-num{font-size:2.2em;font-weight:700;line-height:1;}
+  .score-label{font-size:0.8em;opacity:.85;}
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0;}
+  .stat-card{background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 3px 12px rgba(27,94,32,0.1);}
+  .stat-num{font-size:2em;font-weight:700;}
+  .stat-num.green{color:#2e7d32;}
+  .stat-num.red{color:#e53935;}
+  .stat-label{font-size:0.82em;color:#666;}
+  .corrections-title{font-family:'Cinzel',serif;color:#1b5e20;font-size:1.15em;margin:24px 0 14px;border-bottom:2px solid #66bb6a;padding-bottom:8px;}
+  .correction-item{background:#fff;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 3px 12px rgba(27,94,32,0.08);border-left:4px solid #e53935;}
+  .correction-item .q-label{font-weight:700;color:#1b5e20;margin-bottom:8px;font-size:0.9em;}
+  .correction-item .your-ans{color:#e53935;font-size:0.88em;margin-bottom:4px;}
+  .correction-item .right-ans{color:#2e7d32;font-size:0.88em;margin-bottom:10px;}
+  .explanation{background:#f1f8e9;border-radius:8px;padding:12px;font-size:0.85em;line-height:1.7;}
+  .explanation .en{color:#1b5e20;font-weight:600;margin-bottom:4px;}
+  .explanation .ar{color:#2e7d32;direction:rtl;text-align:right;}
+  .footer{text-align:center;padding:18px;color:#555;font-size:0.82em;margin-top:20px;}
+  .error-msg{color:#e53935;font-size:0.85em;margin-top:6px;display:none;}
+  @media(max-width:600px){.stats-grid{grid-template-columns:1fr;}.quiz-header{flex-direction:column;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#127891; Doctor Faustus – MCQ Quiz 2</h1>
+  <p>Drama | Second Year | Department of English Language</p>
+  <div class="univ-badge">&#127979; Al-Mustaqbal University – Babylon, Iraq &copy; 2025</div>
+</div>
+<div class="container">
+
+<div id="loginSection">
+<div class="card">
+  <h2>&#128100; Student Login / تسجيل دخول الطالب</h2>
+  <p>Please enter your full name and confirm Telegram subscription before starting.</p>
+  <div class="form-group">
+    <label>&#9997;&#65039; Full Name (Three Parts) / الاسم الثلاثي</label>
+    <input type="text" id="studentName" placeholder="First Middle Last / الاسم الاول الثاني الثالث">
+    <div class="error-msg" id="nameError">&#9888; Please enter your full three-part name.</div>
+  </div>
+  <div class="telegram-box">
+    <h3>&#128276; Mandatory Subscription / اشتراك إجباري</h3>
+    <a href="https://t.me/vgsscwe" target="_blank">&#9992;&#65039; Join Telegram Channel</a>
+    <div class="channel-desc">قناة مختصة بـاختبارات وملفات قسم اللغة الإنكليزية – جامعة المستقبل</div>
+    <div class="checkbox-group">
+      <input type="checkbox" id="telegramConfirm">
+      <label for="telegramConfirm">I confirm I have subscribed to the channel / أؤكد اشتراكي في القناة</label>
+    </div>
+    <div class="error-msg" id="telegramError">&#9888; You must subscribe to the Telegram channel first.</div>
+  </div>
+  <div style="text-align:center;margin-top:10px;">
+    <button class="btn" onclick="startQuiz()">&#9654;&#65039; Start Quiz 2 (75 Questions) / ابدأ الاختبار الثاني</button>
+  </div>
+</div>
+</div>
+
+<div id="quizSection">
+  <div class="quiz-header">
+    <div class="student-name" id="displayName"></div>
+    <div class="timer" id="timerDisplay">&#9203; 90:00</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="q-counter" id="qCounter">Question 1 of 75</div>
+  <div id="questionArea"></div>
+  <div class="nav-btns">
+    <button class="btn-nav" id="prevBtn" onclick="changeQ(-1)" disabled>&#8592; Previous</button>
+    <button class="btn-nav" id="nextBtn" onclick="changeQ(1)">Next &#8594;</button>
+  </div>
+  <button class="btn-submit-final" onclick="submitQuiz()">&#10003; Submit Quiz / تسليم الاختبار</button>
+</div>
+
+<div id="resultsSection">
+  <div class="result-hero">
+    <h2 style="font-family:Cinzel,serif;margin-bottom:16px;">&#127942; Quiz Results / نتائج الاختبار</h2>
+    <div class="score-circle">
+      <span class="score-num" id="scorePercent">0%</span>
+      <span class="score-label">Score</span>
+    </div>
+    <div id="gradeMsg" style="font-size:1.1em;font-weight:700;"></div>
+    <div id="studentNameResult" style="margin-top:8px;opacity:.9;font-size:.9em;"></div>
+  </div>
+  <div class="card">
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num green" id="correctCount">0</div><div class="stat-label">&#9989; Correct / صحيح</div></div>
+      <div class="stat-card"><div class="stat-num red" id="wrongCount">0</div><div class="stat-label">&#10060; Wrong / خطأ</div></div>
+    </div>
+    <div class="corrections-title">&#128203; Answer Review & Corrections / مراجعة الإجابات</div>
+    <div id="correctionsArea"></div>
+  </div>
+</div>
+
+<div class="footer">&#127979; Al-Mustaqbal University | Dept. of English Language | Doctor Faustus Quiz 2 &copy; 2025</div>
+</div>
+
+<script>
+const questions = [
+{q:"Marlowe's dramatic innovations transformed the Elizabethan stage and paved the way for which playwright's greatest achievements?",opts:["John Milton","William Shakespeare","Ben Jonson","Philip Sidney"],ans:1,en:"Though his career was tragically brief, his dramatic innovations transformed the Elizabethan stage and paved the way for its greatest achievement: the plays of William Shakespeare.",ar:"رغم قِصَر مسيرته، أحدثت ابتكاراته الدرامية تحولاً في المسرح الإليزابيثي ومهّدت الطريق لأعظم إنجازاته: مسرحيات وليام شكسبير."},
+{q:"What did the Elizabethan Renaissance emphasize according to the course material?",opts:["Medieval religious traditions","Classical learning, secular inquiry, and the dignity of human potential","Military conquest and war","Scientific experimentation alone"],ans:1,en:"The Renaissance spirit emphasized classical learning, secular inquiry, and the dignity of human potential. Drama became the most vibrant literary form of the period.",ar:"شدّد روح النهضة على التعلّم الكلاسيكي والبحث العلماني وكرامة الإمكانية الإنسانية. وأصبح الدراما الشكل الأدبي الأكثر حيوية في تلك الحقبة."},
+{q:"What emerged during the Elizabethan age creating a new dramatic culture?",opts:["Newspaper publishing industry","Professional playwrights and commercial theatres","University academic departments","Political philosophy movements"],ans:1,en:"The emergence of professional playwrights and commercial theatres—such as The Theatre and The Rose—created a new dramatic culture.",ar:"أوجد ظهور الكتّاب المسرحيين المحترفين والمسارح التجارية—كالمسرح والوردة—ثقافةً درامية جديدة."},
+{q:"How are Marlowe's protagonists described in the course slides?",opts:["Humble and obedient figures seeking peace","Titanic figures who challenge divine, political, or natural limits","Comic and foolish heroes","Ordinary working-class people"],ans:1,en:"Marlowe's protagonists are titanic figures who challenge divine, political, or natural limits. They are defined by excess — of ambition, desire, or will.",ar:"شخصيات مارلو الرئيسية شخصيات عملاقة تتحدى الحدود الإلهية أو السياسية أو الطبيعية. وتتسم بالإفراط في الطموح والرغبة أو الإرادة."},
+{q:"Marlowe's play Tamburlaine the Great presented a character who:",opts:["Sought divine forgiveness","Defies limits and pursues absolute power","Studied theology in a university","Became a humble servant of kings"],ans:1,en:"His play Tamburlaine the Great presented a larger-than-life conqueror who defies limits and pursues absolute power.",ar:"قدّمت مسرحية تامبورلين العظيم فاتحاً يفوق الحجم الإنساني يتحدى الحدود ويسعى وراء السلطة المطلقة."},
+{q:"According to the slides, what did Marlowe elevate tragedy from and to?",opts:["From comedy to history","From moral instruction to poetic spectacle and philosophical inquiry","From poetry to prose","From history to fiction"],ans:1,en:"He elevated tragedy from moral instruction to poetic spectacle and philosophical inquiry. In doing so, he laid the structural and poetic foundation that Shakespeare would later refine and deepen.",ar:"رفع الدراما من الإرشاد الأخلاقي إلى الاستعراض الشعري والبحث الفلسفي. بذلك وضع الأساس البنائي والشعري الذي صقله شكسبير لاحقاً وعمّقه."},
+{q:"How are Shakespeare's characters described in comparison to Marlowe's in the slides?",opts:["More singular and extreme","More complex and multidimensional","Less emotionally intense","More focused on magic"],ans:1,en:"While Marlowe's heroes are singular and extreme, Shakespeare's characters are more complex and multidimensional.",ar:"بينما أبطال مارلو أحاديون ومتطرفون، فإن شخصيات شكسبير أكثر تعقيداً وتعدد الأبعاد."},
+{q:"What three qualities does Shakespeare develop that contrast with Marlowe's style?",opts:["Humor, satire, and irony","Moral ambiguity, psychological depth, and emotional subtlety","Magic, power, and ambition","Grand rhetoric, elevated diction, musical cadence"],ans:1,en:"Shakespeare develops: moral ambiguity, psychological depth, and emotional subtlety — in contrast to Marlowe's grand ambition, heroic excess, and clear tragic trajectory.",ar:"يطوّر شكسبير: الغموض الأخلاقي والعمق النفسي والرقة العاطفية—في مقابل الطموح الكبير والإفراط البطولي والمسار التراجيدي الواضح عند مارلو."},
+{q:"How is Marlowe's tone described in comparison to Shakespeare's according to the slides?",opts:["More gentle and romantic","More defiant and intellectually daring","More religious and conservative","More comic and satirical"],ans:1,en:"Marlowe's tone is often more defiant and intellectually daring, while Shakespeare balances ambition with irony and introspection.",ar:"كثيراً ما يكون أسلوب مارلو أكثر تحدياً وجرأةً فكرياً، بينما يوازن شكسبير الطموح بالمفارقة والاستبطان."},
+{q:"At which university was Marlowe educated according to the course material?",opts:["Oxford","Cambridge","London","Edinburgh"],ans:1,en:"As a Cambridge-educated writer, Marlowe absorbed Renaissance humanism. His works reflect fascination with classical mythology, secular inquiry, and the expansion of human possibility.",ar:"بوصفه كاتباً متعلّماً في جامعة كامبريدج، استوعب مارلو الإنسانية الرينيسانسية. تعكس أعماله افتتاناً بالأساطير الكلاسيكية والبحث العلماني وتوسيع الإمكانية الإنسانية."},
+{q:"What is described as Marlowe's 'Tragic Individualism' theme?",opts:["Heroes work together toward a common goal","Heroes are intensely individualistic, stand alone against the world, and their isolation ensures their destruction","Political heroes who seek justice","Religious heroes seeking divine salvation"],ans:1,en:"Marlowe's heroes are intensely individualistic. They stand alone against the world. Their isolation enhances their grandeur but ensures their destruction.",ar:"أبطال مارلو بالغو الفردية. يقفون وحدهم في مواجهة العالم. عزلتهم تُعلي مقامهم لكنها تضمن هلاكهم."},
+{q:"What central tension does Doctor Faustus dramatize according to the theme slides?",opts:["Fate vs. free will","Faith vs. knowledge","The tension between Renaissance humanism and Christian orthodoxy","Magic vs. science"],ans:2,en:"In Doctor Faustus, Faustus rejects traditional theology in pursuit of forbidden knowledge. The play dramatizes the tension between Renaissance humanism and Christian orthodoxy.",ar:"في دكتور فاوستوس، يرفض فاوستوس اللاهوت التقليدي سعياً وراء المعرفة المحرّمة. تُجسّد المسرحية التوتر بين الإنسانية الرينيسانسية والأرثوذكسية المسيحية."},
+{q:"In Act I Scene 1, why does Faustus ultimately dismiss medicine as unsatisfying?",opts:["Because he has no skill in medicine","Because it cannot grant immortality","Because it is too complex","Because it cannot make him wealthy"],ans:1,en:"Yet even medicine, which has made him famous, fails to satisfy him because it cannot grant immortality: 'Yet art thou still but Faustus, and a man.'",ar:"حتى الطب الذي أشهره يعجز عن إرضائه لأنه لا يمنح الخلود: 'ومع ذلك أنت لا تزال مجرد فاوستوس، إنساناً.'"},
+{q:"The quote 'A greater subject fitteth Faustus' wit' captures what theme in Act I?",opts:["Faustus's humility","Tragic overreaching — the belief that ordinary human limits do not apply to him","His love of learning","His respect for scholars"],ans:1,en:"'A greater subject fitteth Faustus' wit.' This line captures tragic overreaching — the belief that ordinary human limits do not apply to him.",ar:"'موضوع أعظم يليق بذكاء فاوستوس.' يُجسّد هذا السطر التجاوز التراجيدي—الاعتقاد بأن حدود الإنسان العادية لا تنطبق عليه."},
+{q:"In Act I Scene 1, while the Good Angel speaks of salvation, the Evil Angel speaks of:",opts:["Death and punishment","'Nature's treasure'","Eternal damnation","Forbidden books"],ans:1,en:"The Evil Angel tempts him with power: 'Go forward, Faustus, in that famous art / Wherein all Nature's treasure is contained.' The Good Angel speaks of salvation; the Evil Angel speaks of 'Nature's treasure.'",ar:"يُغري الملاك الشرير فاوستوس بالسلطة: 'تقدّم يا فاوستوس في تلك الفنون الشهيرة / حيث يحوي كل كنز الطبيعة.' يتحدث الطيب عن الخلاص، والشرير عن 'كنز الطبيعة.'"},
+{q:"What do the Angels' conflict represent psychologically in Act I according to the slides?",opts:["A political debate","An academic argument","Internal voices — conscience versus desire","A spiritual test imposed by God"],ans:2,en:"This conflict is psychological. The Angels represent internal voices — conscience versus desire.",ar:"هذا الصراع نفسي. يمثّل الملاكان أصواتاً داخلية—الضمير في مقابل الرغبة."},
+{q:"What does Valdes glorify in his speech to Faustus in Act I Scene 1?",opts:["Academic achievement","Theological study","Magical power","Political ambition"],ans:2,en:"Valdes glorifies magical power: 'Then haste thee, Faustus, to some lonely grove, And bear wise Bacon's and Albanus' works.'",ar:"يُمجّد فالديس القوة السحرية: 'فهيّا يا فاوستوس إلى بستان موحش وأحضر أعمال بيكون العاقل والألبانوس.'"},
+{q:"What does Cornelius promise Faustus will come from magic?",opts:["Immortality","True wisdom","Control over emperors and kings","A book of all spells"],ans:2,en:"Cornelius promises control over emperors and kings: 'The miracles that magic will perform / Will make thee vow to study nothing else.'",ar:"يعد كورنيليوس بالسيطرة على الأباطرة والملوك: 'معجزات السحر ستجعلك تتعهد بدراسة شيء آخر.'"},
+{q:"According to the Act I slides, what is important about Valdes and Cornelius's role with Faustus?",opts:["They force him to choose magic","They do not force him; the choice is entirely his","They trick him into the pact","They warn him of danger"],ans:1,en:"They feed Faustus's ambition. Importantly, they do not force him. The choice is entirely his.",ar:"يُغذّيان طموح فاوستوس. والمهم أنهما لا يُجبرانه. الاختيار كلياً بيده."},
+{q:"The 'Renaissance Humanism and Its Dark Side' theme in Act I Scene 1 raises what question?",opts:["Whether magic is real","What happens when humanism becomes self-worship","Whether Faustus is truly educated","Whether God forgives sin"],ans:1,en:"Faustus embodies Renaissance aspiration — intellectual expansion beyond medieval limits. Yet Marlowe questions what happens when humanism becomes self-worship.",ar:"يُجسّد فاوستوس طموح عصر النهضة—التوسع الفكري بعيداً عن القيود الوسيطة. لكن مارلو يتساءل عما يحدث حين تصبح الإنسانية عبادةَ الذات."},
+{q:"Faustus imagines spirits flying to India for gold and ransacking the ocean for:",opts:["Spices","Silk","Gold only","Orient pearl"],ans:3,en:"Faustus dreams of reshaping geography: 'I'll have them fly to India for gold, Ransack the ocean for orient pearl.' Knowledge becomes imperial and exploitative.",ar:"يحلم فاوستوس بإعادة تشكيل الجغرافيا: 'سأجعلهم يطيرون إلى الهند للذهب، وينهبون المحيط من أجل اللؤلؤ الشرقي.' تصبح المعرفة إمبريالية استغلالية."},
+{q:"The 'Free Will' theme in Act I Scene 1 states that Faustus's tragedy is:",opts:["The result of fate predestined by God","Not fate — it is choice","Caused by Mephistophilis","Inevitable from birth"],ans:1,en:"The Good Angel offers an alternative. Faustus consciously rejects it. The tragedy is not fate — it is choice.",ar:"يُقدّم الملاك الطيب بديلاً. يرفضه فاوستوس بوعي كامل. المأساة ليست قدراً—بل اختياراً."},
+{q:"In Act I Scene 2, the Scholars represent what according to the slides?",opts:["Faustus's enemies","Rational academia and moral anxiety","Supporters of magic","Comic relief characters only"],ans:1,en:"The Scholars worry about Faustus: 'I fear he is fallen into that damned art.' They represent rational academia and moral anxiety. Unlike Faustus, they recognize danger.",ar:"يقلق العلماء على فاوستوس: 'أخشى أنه وقع في تلك الفن الملعون.' يمثّلون الأكاديمية العقلانية والقلق الأخلاقي. وعلى النقيض من فاوستوس يدركون الخطر."},
+{q:"What does Act I Scene 2 reveal about the 'Corruption of Knowledge' when magic degenerates from scholar to servant to clown?",opts:["Knowledge becomes more powerful","Once knowledge is corrupted, it degenerates quickly","Magic is harmless at lower social levels","Only scholars can truly understand magic"],ans:1,en:"Magic spreads socially. From scholar (Faustus) to servant (Wagner) to clown. Marlowe suggests that once knowledge is corrupted, it degenerates quickly.",ar:"ينتشر السحر اجتماعياً. من العالِم (فاوستوس) إلى الخادم (فاغنر) إلى المهرّج. يقترح مارلو أن المعرفة حين تنفسد تتدهور بسرعة."},
+{q:"What does Scene 1 present in contrast to Scene 2 in Act I, according to the structural analysis in the slides?",opts:["Historical facts","Scene 1 presents high tragic ambition; Scene 2 presents low comic imitation","Both present equal tragic weight","Scene 1 is comic; Scene 2 is tragic"],ans:1,en:"Scene 1 presents high tragic ambition. Scene 2 presents low comic imitation. Together they suggest overreaching begins in grandeur but ends in absurdity.",ar:"يقدم المشهد الأول الطموح التراجيدي الرفيع. يقدم المشهد الثاني المحاكاة الكوميدية الدنيا. معاً يُلمحان إلى أن التجاوز يبدأ بالبهاء لكنه ينتهي بالسخافة."},
+{q:"What does the theme 'Ambition detached from morality collapses into ___' complete with?",opts:["Greatness","Wisdom","Farce","Tragedy"],ans:2,en:"Ambition detached from morality collapses into farce. This is one of the key conclusions from the structural analysis of Act I.",ar:"الطموح المنفصل عن الأخلاق ينهار إلى مسخرة. هذا أحد الاستنتاجات الرئيسية من التحليل البنائي للفصل الأول."},
+{q:"In Act II Scene 1, what continues to trouble Faustus's conscience even after signing the pact?",opts:["Fear of Lucifer","The memory of his students","His conscience and the possibility of repentance","His academic reputation"],ans:2,en:"Although he has already signed the pact with Lucifer, his conscience continues to trouble him. The scene dramatizes the internal struggle between repentance and pride.",ar:"رغم توقيعه على الاتفاق مع لوسيفر، يستمر ضميره في إزعاجه. يُجسّد المشهد الصراع الداخلي بين التوبة والغرور."},
+{q:"How are Faustus's character and behaviour described in Act II Scene 1?",opts:["Peaceful and fully content","Increasingly conflicted yet stubborn","Fully committed to repentance","Afraid of magic"],ans:1,en:"Faustus appears increasingly conflicted yet stubborn. His intellectual brilliance is overshadowed by arrogance and despair.",ar:"يبدو فاوستوس متصاعد التضارب لكنه عنيد. يُظلّل غروره ويأسه بريقه الفكري."},
+{q:"What is Mephistophilis's dual role in Act II Scene 1 according to the slides?",opts:["Guardian and teacher of Faustus","Servant of Lucifer and a tragic figure who understands the suffering of hell","Destroyer and tempter only","Scholar and magician"],ans:1,en:"Mephistophilis functions both as a servant of Lucifer and a tragic figure who understands the suffering of hell.",ar:"يعمل ميفيستوفيليس خادماً للوسيفر وشخصية تراجيدية تفهم معاناة الجحيم في آنٍ واحد."},
+{q:"What does Lucifer symbolize in Act II Scene 1 according to the slides?",opts:["The power of knowledge and learning","Absolute rebellion against divine authority","The hope of redemption for sinners","Human ambition taken too far"],ans:1,en:"Lucifer symbolizes absolute rebellion against divine authority. His appearance reinforces Faustus's separation from God.",ar:"يرمز لوسيفر إلى التمرد المطلق على السلطة الإلهية. ظهوره يُعزز انفصال فاوستوس عن الله."},
+{q:"According to the 'Possibility of Repentance' theme in Act II Scene 1, where does Faustus's tragedy lie?",opts:["In being unable to repent","In his refusal to turn back","In God's refusal to forgive him","In the power of Lucifer over him"],ans:1,en:"Despite the pact, Faustus repeatedly has opportunities to repent. His tragedy lies not in fate but in his refusal to turn back.",ar:"على الرغم من الاتفاق، يتاح لفاوستوس مراراً فرصُ التوبة. مأساته لا تكمن في القدر بل في رفضه العودة."},
+{q:"The quote 'Think'st thou that I, who saw the face of God...' in Act II demonstrates what according to the slides?",opts:["Faustus's deep faith in God","Mephistophilis understands damnation while Faustus refuses to grasp it","A sign of Faustus's coming repentance","Faustus's growing power"],ans:1,en:"Mephistophilis himself understands the horror of damnation, while Faustus refuses to grasp it. The irony emphasizes Faustus's blindness.",ar:"يفهم ميفيستوفيليس نفسه رعب الهلاك، بينما يرفض فاوستوس إدراكه. المفارقة تُبرز عمى فاوستوس."},
+{q:"What does Act II Scene 1 demonstrate about the moral degradation of Faustus?",opts:["He becomes wiser over time","The scene demonstrates the gradual moral degradation of Faustus","He finds redemption through struggle","He gains genuine power"],ans:1,en:"Thus, the scene demonstrates the gradual moral degradation of Faustus, who exchanges spiritual salvation for meaningless spectacle.",ar:"وهكذا يُظهر المشهد التدهور الأخلاقي التدريجي لفاوستوس، الذي يُقايض الخلاص الروحي باستعراض لا معنى له."},
+{q:"What does Faustus exchange spiritual salvation for in Act II Scene 1?",opts:["True divine knowledge","Political power","Meaningless spectacle","Immortality on earth"],ans:2,en:"Instead of pursuing knowledge, Faustus becomes entertained by trivial pleasures, revealing the emptiness of his bargain. He exchanges spiritual salvation for meaningless spectacle.",ar:"بدلاً من السعي وراء المعرفة، يتسلّى فاوستوس بالملذات التافهة، كاشفاً فراغ صفقته. يُقايض الخلاص الروحي باستعراض لا معنى له."},
+{q:"The 'Temptation and Moral Choice' theme in Act II Scene 1 states that the Angels symbolize:",opts:["Two physical beings fighting over Faustus","The constant struggle between good and evil within human nature","Representatives of political authority","Manifestations of Lucifer's power"],ans:1,en:"The angels symbolize the constant struggle between good and evil within human nature.",ar:"يرمز الملاكان إلى الصراع الدائم بين الخير والشر في الطبيعة الإنسانية."},
+{q:"Robin in Act II Scene 2 is described as:",opts:["An intelligent and noble figure","A comic character representing ignorance and greed","A tragic figure similar to Faustus","A loyal and wise servant"],ans:1,en:"Robin is a comic character representing ignorance and greed. His foolish attempts at magic parody Faustus's intellectual arrogance.",ar:"روبن شخصية كوميدية تمثّل الجهل والجشع. محاولاته الحمقاء في السحر تُحاكي ساخرةً غطرسة فاوستوس الفكرية."},
+{q:"How is Rafe described in Act II Scene 2 in the slides?",opts:["An enemy of Robin","A moral voice in the scene","Robin's companion who encourages the comic mischief","Faustus's new servant"],ans:2,en:"Rafe acts as Robin's companion and encourages the comic mischief. Together they embody the lower social class's fascination with magic and spectacle.",ar:"يعمل رافي رفيقاً لروبن ويشجّع المحاجّات الكوميدية. معاً يُجسّدان افتتان الطبقة الاجتماعية الدنيا بالسحر والاستعراض."},
+{q:"The 'Misuse of Knowledge' theme in Act II Scene 2 shows magic becoming:",opts:["A tool for genuine wisdom","A tool for petty desires and entertainment","A pathway to true power","A means of serving God"],ans:1,en:"Magic, which Faustus once considered the highest form of knowledge, becomes a tool for petty desires and entertainment.",ar:"السحر، الذي اعتبره فاوستوس في السابق أرقى أشكال المعرفة، يصبح أداةً للرغبات الحقيرة والترفيه."},
+{q:"Act II deepens the tragedy by showing Faustus still has a chance to repent. What does he ultimately do with this chance?",opts:["He takes the chance and repents","He refuses it","He is prevented from repenting by Mephistophilis","He forgets about the possibility of repentance"],ans:1,en:"Act II deepens the tragedy of Faustus by showing that he still has the chance to repent, yet refuses it.",ar:"يُعمّق الفصل الثاني مأساة فاوستوس بإظهار أنه لا يزال يملك فرصة التوبة، لكنه يرفضها."},
+{q:"Marlowe's dramatic structure, according to the slides, focuses intensely on:",opts:["Multiple storylines and subplots","The protagonist's rise and fall","Historical events and political context","Comic relief scenes and romance"],ans:1,en:"His plots are often structurally direct, focusing intensely on the protagonist's rise and fall. The theatrical experience relies heavily on rhetorical brilliance and emotional extremity.",ar:"كثيراً ما تكون حبكاته مباشرة بنيوياً، تتركز بشدة على صعود البطل وسقوطه. تعتمد التجربة المسرحية اعتماداً كبيراً على البريق الخطابي والتطرف العاطفي."},
+{q:"What does Marlowe's drama emphasize in terms of theatrical experience according to the slides?",opts:["Visual spectacle and music alone","Rhetorical brilliance and emotional extremity","Historical accuracy and realism","Romance and domestic scenes"],ans:1,en:"The theatrical experience relies heavily on rhetorical brilliance and emotional extremity.",ar:"تعتمد التجربة المسرحية اعتماداً كبيراً على البريق الخطابي والتطرف العاطفي."},
+{q:"Marlowe's drama emphasizes grand confrontations, monumental speeches, and what third element?",opts:["Religious ceremony and prayer","Clear central conflict","Romantic subplots","Political negotiations and diplomacy"],ans:1,en:"Marlowe's drama emphasizes: grand confrontations, monumental speeches, and clear central conflict.",ar:"تُبرز دراما مارلو: المواجهات الكبرى والخطب الضخمة والصراع المحوري الواضح."},
+{q:"According to the conclusion slides, Shakespeare absorbed Marlowe's innovations and:",opts:["Rejected most of them as unsuitable","Expanded them into richer dramatic structures","Created a completely different style","Simplified them for popular audiences"],ans:1,en:"In many ways, Shakespeare absorbed Marlowe's innovations and expanded them into richer dramatic structures.",ar:"بوجوه عديدة، استوعب شكسبير ابتكارات مارلو ووسّعها في بنى درامية أكثر ثراءً."},
+{q:"According to the influence slides, Marlowe established which poetic form as dominant for Shakespeare?",opts:["Rhymed couplets","Prose drama","Blank verse","Sonnet form"],ans:2,en:"Marlowe influenced Shakespeare in several key ways, including establishing blank verse as the dominant dramatic form.",ar:"أثّر مارلو في شكسبير بوجوه رئيسية عدة، منها ترسيخ الشعر الحر (blank verse) باعتباره الشكل الدرامي السائد."},
+{q:"What key contribution to characterization did Marlowe give to Shakespeare?",opts:["Creating comedic fools and clowns","Introducing psychologically ambitious protagonists","Writing complex female heroines","Developing supernatural villains"],ans:1,en:"Marlowe influenced Shakespeare by introducing psychologically ambitious protagonists.",ar:"أثّر مارلو في شكسبير بإدخاله الشخصيات الرئيسية ذات الطموح النفسي العميق."},
+{q:"The Elizabethan age also witnessed 'humanist education rooted in ___' according to the slides:",opts:["Medieval philosophy","Classical literature","Scientific experimentation","Religious texts alone"],ans:1,en:"The Elizabethan age witnessed humanist education rooted in classical literature.",ar:"شهد العصر الإليزابيثي تعليماً إنسانياً متجذّراً في الأدب الكلاسيكي."},
+{q:"How are Marlowe's overreaching heroes defined according to the slides?",opts:["By beauty, fame, and fortune","By excess — of ambition, desire, or will","By military conquest and political power","By logic, medicine, and theology"],ans:1,en:"They are defined by excess — of ambition, desire, or will. Their downfall results not from simple moral failure but from the tragic magnitude of their aspiration.",ar:"يتسمون بالإفراط—في الطموح أو الرغبة أو الإرادة. هلاكهم ينجم لا عن فشل أخلاقي بسيط بل عن العظمة التراجيدية لطموحهم."},
+{q:"'Their downfall results not from simple moral failure but from the tragic magnitude of their ___' (complete the quote):",opts:["Intelligence","Ignorance","Sin","Aspiration"],ans:3,en:"They are defined by excess — of ambition, desire, or will. Their downfall results not from simple moral failure but from the tragic magnitude of their aspiration.",ar:"يتسمون بالإفراط في الطموح والرغبة أو الإرادة. هلاكهم ينجم لا عن فشل أخلاقي بسيط بل عن العظمة التراجيدية لطموحهم."},
+{q:"According to the Act I slides, what is the Scholars' role in Scene 2?",opts:["They are evil figures","They represent rational academia and moral anxiety, recognizing danger unlike Faustus","They are comic figures","They support Faustus's choice"],ans:1,en:"The Scholars worry about Faustus. They represent rational academia and moral anxiety. Unlike Faustus, they recognize danger.",ar:"يقلق العلماء على فاوستوس. يمثّلون الأكاديمية العقلانية والقلق الأخلاقي. وعلى النقيض من فاوستوس يدركون الخطر."},
+{q:"Wagner 'represents second-hand ambition — ambition without ___' according to the slides:",opts:["Power","Money","Depth","Education"],ans:2,en:"Wagner represents second-hand ambition — ambition without depth. He mirrors Faustus but at a lower social level.",ar:"يمثّل فاغنر الطموح المستعار—الطموح دون عمق. إنه يعكس فاوستوس لكن على مستوى اجتماعي أدنى."},
+{q:"At what social level does Wagner mirror Faustus?",opts:["The same intellectual level","A lower social level","A higher academic level","A divine spiritual level"],ans:1,en:"Wagner represents second-hand ambition — ambition without depth. He mirrors Faustus but at a lower social level.",ar:"يمثّل فاغنر الطموح المستعار—الطموح دون عمق. يعكس فاوستوس لكن على مستوى اجتماعي أدنى."},
+{q:"According to Act II Scene 1, Faustus 'tries to silence his conscience' because his pride prevents him from acknowledging that:",opts:["Magic has real power","Salvation is still possible","Lucifer controls him totally","Mephistophilis is loyal"],ans:1,en:"Rather than repent, he tries to silence his conscience. His pride prevents him from acknowledging that salvation is still possible.",ar:"بدلاً من التوبة، يحاول إسكات ضميره. غروره يمنعه من الاعتراف بأن الخلاص لا يزال ممكناً."},
+{q:"The 'Comic Parody' theme in Act II Scene 2 reveals what about Faustus's ambitions?",opts:["They are noble and well-founded","Their absurdity when reflected in Robin's comic behaviour","Robin's success where Faustus fails","That magic is ultimately harmless"],ans:1,en:"The scene reflects a humorous version of Faustus's ambitions, revealing their absurdity.",ar:"يعكس المشهد نسخةً فكاهيةً من طموحات فاوستوس، كاشفاً سخافتها."},
+{q:"According to the slides, Marlowe's 'Defiance of Authority' theme shows characters challenging divine authority, political hierarchy, and:",opts:["Educational institutions","Social conventions","Military power","Academic knowledge"],ans:1,en:"Marlowe's characters frequently challenge: divine authority, political hierarchy, and social conventions.",ar:"يتحدى شخصيات مارلو باستمرار: السلطة الإلهية والتسلسل الهرمي السياسي والأعراف الاجتماعية."},
+{q:"Marlowe's Edward II anticipates what later dramatic development?",opts:["Shakespearean romantic comedies","Shakespearean history plays in their nuanced portrayal of political power","Greek tragedies","Medieval morality plays"],ans:1,en:"In Edward II, Marlowe explores the fragility of monarchy... The play anticipates later Shakespearean history plays in its nuanced portrayal of political power.",ar:"في إدوارد الثاني، يستكشف مارلو هشاشة الملكية... تستبق المسرحية المسرحيات التاريخية الشكسبيرية اللاحقة في تصويرها الدقيق للسلطة السياسية."},
+{q:"According to Act II Scene 2, Robin and Rafe together embody:",opts:["The wisdom of the common people","The lower social class's fascination with magic and spectacle","The danger of academic knowledge","The power of religious faith"],ans:1,en:"Together they embody the lower social class's fascination with magic and spectacle.",ar:"معاً يُجسّدان افتتان الطبقة الاجتماعية الدنيا بالسحر والاستعراض."},
+{q:"According to Act II Scene 2, what happens when Robin and Rafe attempt to summon spirits?",opts:["They succeed in their summoning","Chaos ensues due to their incompetence","Faustus appears to stop them","God intervenes directly"],ans:1,en:"When the characters attempt to summon spirits, chaos ensues. Their incompetence highlights the dangerous absurdity of meddling with supernatural forces.",ar:"حين يحاول الشخصيتان استحضار الأرواح، تعمّ الفوضى. عجزهما يُبرز السخافة الخطيرة في العبث بالقوى الخارقة للطبيعة."},
+{q:"What two purposes does the comic scene of Act II serve according to the slides?",opts:["Entertainment and historical context","Dramatic relief from intense moral conflict AND satire of Faustus's magical quest","Introduction of new characters AND plot development","Character development AND theme exploration"],ans:1,en:"The comic scene serves two purposes: it provides dramatic relief from the intense moral conflict of Faustus's story, and it satirizes Faustus's quest for magical knowledge.",ar:"يخدم المشهد الكوميدي هدفَين: يُوفر راحة درامية من الصراع الأخلاقي المكثف، ويسخر من سعي فاوستوس وراء المعرفة السحرية."},
+{q:"According to Act II significance, what three things does the act show about Faustus?",opts:["Power, wisdom, and courage","He still can repent yet refuses; his ambitions degenerate into spectacle; his quest becomes self-deception","His love of magic, his hatred of God, his fear of death","Success, failure, and redemption"],ans:1,en:"Act II deepens the tragedy by showing: he still has the chance to repent yet refuses it; his great ambitions gradually degenerate into trivial spectacles; his pursuit of magical knowledge ultimately becomes a form of self-deception.",ar:"يُعمّق الفصل الثاني المأساة بإظهار: أنه لا يزال يملك فرصة التوبة لكنه يرفضها؛ وأن طموحاته الكبرى تتدهور إلى استعراضات تافهة؛ وأن سعيه وراء المعرفة السحرية يصبح نوعاً من خداع الذات."},
+{q:"According to the slides, what is one of the Elizabethan age's key cultural features that Marlowe reflected?",opts:["A revival of medieval themes","A renewed interest in individual ambition and power","A focus on collective religious worship","A return to ancient Greek drama"],ans:1,en:"The Elizabethan age witnessed: renewed interest in individual ambition and power, humanist education, the rise of public theatres, and expansion of English exploration and trade.",ar:"شهد العصر الإليزابيثي: اهتماماً متجدداً بالطموح الفردي والسلطة، والتعليم الإنساني، وظهور المسارح العامة، وتوسع الاستكشاف الإنجليزي والتجارة."},
+{q:"In Act I Scene 1, when Faustus turns to theology and quotes scripture selectively, what does the slides say this reveals?",opts:["His deep faith","His intellectual arrogance — he does not misunderstand; he chooses despair","His fear of God","His desire to become a priest"],ans:1,en:"Faustus selectively quotes Scripture and ignores the promise of salvation. This deliberate distortion reveals intellectual arrogance. He does not misunderstand — he chooses despair.",ar:"يقتبس فاوستوس من الكتاب المقدس انتقائياً ويتجاهل وعد الخلاص. هذا التحريف المتعمد يكشف الغطرسة الفكرية. لا يُسيء الفهم—بل يختار اليأس."},
+{q:"What does the 'Hubris as Tragic Flaw' theme in Act I state about Faustus's downfall?",opts:["It begins because of external evil forces","It begins in pride — his ambition is Promethean; he seeks to transcend humanity","It is predetermined by God","It is caused by the Evil Angel's influence"],ans:1,en:"Faustus's downfall begins in pride. His ambition is Promethean. He seeks to transcend humanity.",ar:"يبدأ هلاك فاوستوس بالغرور. طموحه بروميثيوسي. يسعى إلى تجاوز الإنسانية."},
+{q:"How is Faustus's ambition compared to a figure from Greek mythology in Act I slides?",opts:["Dionysian","Apollonian","Promethean","Herculean"],ans:2,en:"Faustus's downfall begins in pride. His ambition is Promethean. He seeks to transcend humanity.",ar:"يبدأ هلاك فاوستوس بالغرور. طموحه بروميثيوسي. يسعى إلى تجاوز الإنسانية."},
+{q:"The Seven Deadly Sins pageant in Act II Scene 1 distracts Faustus from:",opts:["His studies and books","Repentance","His magical powers","His scholarly friends"],ans:1,en:"Lucifer then appears with a theatrical spectacle — the Seven Deadly Sins. This grotesque parade distracts Faustus from repentance.",ar:"يظهر لوسيفر بعرض مسرحي—الخطايا السبع المميتة. هذا الاستعراض المتشنّج يصرف فاوستوس عن التوبة."},
+{q:"What does the Elizabethan age's 'expansion of English exploration and trade' reflect in relation to Faustus's dreams?",opts:["Faustus seeks religious purity","Faustus's dream of reshaping geography and gaining wealth reflects the imperial spirit of the age","Faustus rejects material wealth","Faustus seeks to spread education"],ans:1,en:"The Elizabethan age witnessed expansion of English exploration and trade. Faustus dreams of reshaping geography: 'I'll have them fly to India for gold.' Knowledge becomes imperial and exploitative.",ar:"شهد العصر الإليزابيثي توسع الاستكشاف الإنجليزي والتجارة. يحلم فاوستوس بإعادة تشكيل الجغرافيا: 'سأجعلهم يطيرون إلى الهند للذهب.' تصبح المعرفة إمبريالية استغلالية."},
+{q:"The Act II scene where the Seven Deadly Sins parade before Faustus shows instead of knowledge, he receives:",opts:["Genuine power and authority","Political control over kingdoms","Only entertainment and illusions","Eternal life"],ans:2,en:"Instead of gaining divine knowledge, Faustus receives only entertainment and illusions, such as the pageant of the Seven Deadly Sins.",ar:"بدلاً من اكتساب المعرفة الإلهية، يتلقى فاوستوس الترفيهَ والأوهامَ فحسب، كاستعراض الخطايا السبع المميتة."},
+{q:"The 'Social Satire' in Act II Scene 2 contrasts scholarly ambitions with:",opts:["The nobility's desire for power","Common people's simple desires, suggesting both may be misguided","Political leaders' ambitions","Religious figures' spiritual goals"],ans:1,en:"Marlowe contrasts the intellectual ambitions of scholars with the simple desires of common people, suggesting that both may ultimately be misguided.",ar:"يُقابل مارلو الطموحات الفكرية للعلماء مع الرغبات البسيطة للعامة، مُلمّحاً إلى أن كلَيهما قد يكون ضالاً في نهاية المطاف."},
+{q:"According to the conclusion slides, what did Marlowe open for Shakespeare?",opts:["A new theatrical company","The path that Shakespeare would later broaden and deepen","A new acting style","A religious theatrical tradition"],ans:1,en:"His artistic relationship with Shakespeare is one of foundational influence: Marlowe opened the path that Shakespeare would later broaden and deepen.",ar:"علاقته الفنية مع شكسبير علاقة تأثير تأسيسي: فتح مارلو الطريق الذي وسّعه شكسبير لاحقاً وعمّقه."},
+{q:"According to the final conclusion of the slides, without Marlowe's 'mighty line and titanic protagonists', what would have happened to English Renaissance tragedy?",opts:["It would have become more religious","Its evolution would have taken a very different course","It would have been identical","It would have flourished more quickly"],ans:1,en:"Without Marlowe's mighty line and titanic protagonists, the evolution of English Renaissance tragedy would have taken a very different course.",ar:"بدون السطر الجبّار لمارلو وشخصياته العملاقة، كان لمسار تطور مأساة النهضة الإنجليزية أن يسلك مساراً مختلفاً كلياً."}
+,{q:"Marlowe introduced poetic power, intellectual daring, and what third quality that reshaped dramatic expression?",opts:["Comic relief","Theatrical intensity","Historical accuracy","Simple storytelling"],ans:1,en:"Marlowe introduced a new poetic power, intellectual daring, and theatrical intensity that reshaped dramatic expression in the late sixteenth century.",ar:"قدّم مارلو قوةً شعريةً جديدة وجرأةً فكرية وكثافةً مسرحية أعادت تشكيل التعبير الدرامي في أواخر القرن السادس عشر."},{q:"Before Marlowe, English drama was also dominated by which fourth type alongside morality plays, religious allegory, and Senecan revenge tragedy?",opts:["Pastoral drama","Comedy of manners","Chronicle history plays","Romantic verse drama"],ans:2,en:"Before Marlowe, English drama was dominated by: morality plays, religious allegory, Senecan revenge tragedy, and chronicle history plays.",ar:"قبل مارلو، كانت الدراما الإنجليزية تهيمن عليها المسرحيات الأخلاقية والمجاز الديني والمأساة الانتقامية والمسرحيات التاريخية الحولية."},{q:"What does Marlowe say about human potential when ambition exceeds all limits?",opts:["It leads to salvation","Ambition becomes both heroic and destructive — Renaissance human potential is pushed to its limits and beyond","It creates eternal legacy","It achieves divine status"],ans:1,en:"Ambition becomes both heroic and destructive. The Renaissance celebration of human potential is pushed to its limits — and beyond.",ar:"يصبح الطموح بطولياً وتدميرياً في آنٍ واحد. يُدفع احتفال عصر النهضة بالإمكانية الإنسانية إلى حدوده وما وراءها."},{q:"How did Marlowe influence Shakespeare in terms of elevating the art of tragedy?",opts:["By writing romantic tragedies","By elevating tragedy to poetic intensity","By writing comic tragedies","By introducing historical accuracy"],ans:1,en:"Marlowe influenced Shakespeare in several key ways including: elevating tragedy to poetic intensity.",ar:"أثّر مارلو في شكسبير بوجوه رئيسية عدة تشمل رفع المأساة إلى الكثافة الشعرية."},{q:"According to Act II Scene 1, the 'Pride (Hubris)' theme states that Faustus's arrogance prevents him from:",opts:["Gaining more magical power","Admitting his mistake and seeking redemption","Understanding Mephistophilis","Challenging Lucifer directly"],ans:1,en:"Pride (Hubris) — Faustus's arrogance prevents him from admitting his mistake. His intellectual pride becomes the root of his destruction.",ar:"الغرور—يمنع غرور فاوستوس من الاعتراف بخطئه. غروره الفكري يصبح جذر هلاكه."},{q:"According to Act II Scene 2, Robin and Faustus both pursue magic without understanding its consequences. What does this show?",opts:["Faustus's ambitions are much nobler","Faustus's grand ambitions are not much nobler than Robin's foolish desires","Magic is accessible to all social classes equally","Robin is secretly as intelligent as Faustus"],ans:1,en:"The scene suggests that Faustus's grand intellectual ambitions are not much nobler than Robin's foolish desires. Both pursue magical power without understanding its consequences.",ar:"يُلمح المشهد إلى أن الطموحات الفكرية الكبرى لفاوستوس ليست أكثر نبلاً بكثير من رغبات روبن الحمقاء. كلاهما يسعى وراء السحر دون فهم عواقبه."}
+];
+
+let currentQ = 0;
+let userAnswers = new Array(questions.length).fill(-1);
+let timerInterval;
+let timeLeft = 90 * 60;
+let studentName = "";
+
+function startQuiz() {
+  const name = document.getElementById("studentName").value.trim();
+  const parts = name.split(/\s+/).filter(p => p.length > 0);
+  let valid = true;
+  if (parts.length < 3) { document.getElementById("nameError").style.display = "block"; valid = false; }
+  else { document.getElementById("nameError").style.display = "none"; }
+  if (!document.getElementById("telegramConfirm").checked) { document.getElementById("telegramError").style.display = "block"; valid = false; }
+  else { document.getElementById("telegramError").style.display = "none"; }
+  if (!valid) return;
+  studentName = name;
+  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("quizSection").style.display = "block";
+  document.getElementById("displayName").textContent = "Student: " + studentName;
+  startTimer();
+  renderQuestion();
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const m = Math.floor(timeLeft / 60).toString().padStart(2, "0");
+    const s = (timeLeft % 60).toString().padStart(2, "0");
+    document.getElementById("timerDisplay").textContent = "⏱ " + m + ":" + s;
+    if (timeLeft <= 0) { clearInterval(timerInterval); submitQuiz(); }
+  }, 1000);
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  document.getElementById("qCounter").textContent = "Question " + (currentQ + 1) + " of " + questions.length;
+  const fill = ((currentQ + 1) / questions.length * 100).toFixed(1);
+  document.getElementById("progressFill").style.width = fill + "%";
+  const letters = ["A", "B", "C", "D"];
+  let html = "<div class=\"question-card\"><div class=\"q-num\">Q" + (currentQ + 1) + "</div><div class=\"q-text\">" + q.q + "</div><div class=\"options\">";
+  q.opts.forEach((opt, i) => {
+    const sel = userAnswers[currentQ] === i ? " selected" : "";
+    html += "<button class=\"opt-btn" + sel + "\" onclick=\"selectAnswer(" + i + ")\"><span class=\"opt-letter\">" + letters[i] + "</span>" + opt + "</button>";
+  });
+  html += "</div></div>";
+  document.getElementById("questionArea").innerHTML = html;
+  document.getElementById("prevBtn").disabled = currentQ === 0;
+  document.getElementById("nextBtn").disabled = currentQ === questions.length - 1;
+}
+
+function selectAnswer(idx) { userAnswers[currentQ] = idx; renderQuestion(); }
+function changeQ(dir) { currentQ = Math.max(0, Math.min(questions.length - 1, currentQ + dir)); renderQuestion(); }
+
+function submitQuiz() {
+  clearInterval(timerInterval);
+  document.getElementById("quizSection").style.display = "none";
+  document.getElementById("resultsSection").style.display = "block";
+  let correct = 0;
+  let corrections = "";
+  questions.forEach((q, i) => {
+    if (userAnswers[i] === q.ans) { correct++; }
+    else {
+      const letters = ["A","B","C","D"];
+      const yourAns = userAnswers[i] >= 0 ? letters[userAnswers[i]] + ". " + q.opts[userAnswers[i]] : "Not answered";
+      corrections += "<div class=\"correction-item\"><div class=\"q-label\">Q" + (i+1) + ": " + q.q + "</div><div class=\"your-ans\">&#10060; Your answer: " + yourAns + "</div><div class=\"right-ans\">&#9989; Correct answer: " + letters[q.ans] + ". " + q.opts[q.ans] + "</div><div class=\"explanation\"><div class=\"en\">&#128218; " + q.en + "</div><div class=\"ar\">&#128218; " + q.ar + "</div></div></div>";
+    }
+  });
+  const wrong = questions.length - correct;
+  const pct = Math.round(correct / questions.length * 100);
+  document.getElementById("scorePercent").textContent = pct + "%";
+  document.getElementById("correctCount").textContent = correct;
+  document.getElementById("wrongCount").textContent = wrong;
+  document.getElementById("studentNameResult").textContent = "Student: " + studentName;
+  const grades = pct >= 90 ? "🏆 Excellent / ممتاز" : pct >= 80 ? "🥇 Very Good / جيد جداً" : pct >= 70 ? "🥈 Good / جيد" : pct >= 60 ? "🥉 Accepted / مقبول" : "📚 Need More Study / يحتاج مزيداً من الدراسة";
+  document.getElementById("gradeMsg").textContent = grades;
+  document.getElementById("correctionsArea").innerHTML = corrections || "<p style=\"color:#2e7d32;text-align:center;padding:20px;\">🎉 Perfect score! All answers are correct! / إجاباتك كلها صحيحة!</p>";
+}
+</script>
+</body>
+</html>
